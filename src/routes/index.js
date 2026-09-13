@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import authMiddleware from "../middlewares/auth.js";
-import { uploadProfilePhoto, processProfilePhoto } from "../middlewares/uploadMiddleware.js";
+import { uploadProfilePhoto, processProfilePhoto, uploadPaymentScreenshot, processPaymentScreenshot } from "../middlewares/uploadMiddleware.js";
 
 import * as authController from "../controllers/authController.js";
 import * as memberController from "../controllers/memberController.js";
@@ -12,10 +12,13 @@ import * as workoutController from "../controllers/workoutController.js";
 import * as dietController from "../controllers/dietController.js";
 import * as membershipController from "../controllers/membershipController.js";
 import * as dashboardController from "../controllers/dashboardController.js";
+import * as progressController from "../controllers/progressController.js";
 
 // Auth routes
 router.post("/auth/register", authController.register);
 router.post("/auth/login", authController.login);
+router.post("/auth/profile/get", authMiddleware, authController.getProfile);
+router.post("/auth/profile/update", authMiddleware, authController.updateProfile);
 
 router.post("/members/login", memberController.loginMember);
 router.post("/trainers/login", trainerController.loginTrainer);
@@ -50,7 +53,10 @@ router.post(
 
 // Payment routes
 router.post("/payments/get", authMiddleware, paymentController.getAllPayments);
-router.post("/payments/add", authMiddleware, paymentController.createPayment);
+router.post("/payments/get/:id", authMiddleware, paymentController.getPaymentById);
+router.post("/payments/add", authMiddleware, uploadPaymentScreenshot, processPaymentScreenshot, paymentController.createPayment);
+router.post("/payments/edit/:id", authMiddleware, uploadPaymentScreenshot, processPaymentScreenshot, paymentController.updatePayment);
+router.post("/payments/delete/:id", authMiddleware, paymentController.deletePayment);
 
 // Workout routes
 router.post("/workouts/get", authMiddleware, workoutController.getAllWorkouts);
@@ -82,5 +88,10 @@ router.post(
 
 // Dashboard routes
 router.post("/dashboard/stats/get", authMiddleware, dashboardController.getStats);
+
+// Progress routes
+router.post("/progress/add", authMiddleware, progressController.addProgressLog);
+router.post("/progress/overview/:memberId", authMiddleware, progressController.getProgressOverview);
+router.post("/progress/history/:memberId", authMiddleware, progressController.getProgressHistory);
 
 export default router;

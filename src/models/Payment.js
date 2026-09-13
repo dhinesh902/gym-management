@@ -20,13 +20,21 @@ const Payment = sequelize.define('Payment', {
     allowNull: false,
   },
   paymentMethod: {
-    type: DataTypes.ENUM('cash', 'card', 'online', 'bank_transfer'),
+    type: DataTypes.ENUM('cash', 'card', 'UPI'),
     defaultValue: 'cash',
   },
-  status: {
-    type: DataTypes.ENUM('completed', 'pending', 'failed'),
-    defaultValue: 'completed',
+  paymentscreenshot: {
+    type: DataTypes.STRING,
+    allowNull: true
   },
+  transactionid: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  remarks: {
+    type: DataTypes.STRING,
+    allowNull: true
+  }
 }, {
   timestamps: true,
 });

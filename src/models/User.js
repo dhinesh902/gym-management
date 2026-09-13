@@ -24,6 +24,18 @@ const User = sequelize.define('User', {
     type: DataTypes.ENUM('admin', 'trainer', 'user'),
     defaultValue: 'user',
   },
+  gymname: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  mobilenumber: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  address: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
 }, {
   timestamps: true,
 });

@@ -9,6 +9,7 @@ import Attendance from './Attendance.js';
 import Payment from './Payment.js';
 import Workout from './Workout.js';
 import Diet from './Diet.js';
+import ProgressLog from './ProgressLog.js';
 
 // Define Associations
 
@@ -36,6 +37,10 @@ Attendance.belongsTo(Member, { foreignKey: 'memberId' });
 Member.hasMany(Payment, { foreignKey: 'memberId' });
 Payment.belongsTo(Member, { foreignKey: 'memberId' });
 
+// Member and ProgressLog
+Member.hasMany(ProgressLog, { foreignKey: 'memberId' });
+ProgressLog.belongsTo(Member, { foreignKey: 'memberId' });
+
 // Trainer and Workout/Diet
 Trainer.hasMany(Workout, { foreignKey: 'trainerId' });
 Workout.belongsTo(Trainer, { foreignKey: 'trainerId' });
@@ -54,4 +59,5 @@ export default {
   Payment,
   Workout,
   Diet,
+  ProgressLog,
 };

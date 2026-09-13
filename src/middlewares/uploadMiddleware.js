@@ -60,3 +60,34 @@ export const processProfilePhoto = async (req, res, next) => {
     res.status(500).json({ message: 'Error processing image upload', error: error.message });
   }
 };
+export const uploadPaymentScreenshot = upload.single('paymentscreenshot');
+
+export const processPaymentScreenshot = async (req, res, next) => {
+  if (!req.file) return next();
+
+  try {
+    const filename = `payment-${Date.now()}-${Math.round(Math.random() * 1e9)}.webp`;
+    const uploadPath = path.join(__dirname, '../../public/uploads', filename);
+
+    // Ensure directory exists
+    const dir = path.dirname(uploadPath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+
+    // Process image: compress and convert to WebP
+    await sharp(req.file.buffer)
+      .resize(800, null, { // Resize width to 800px, auto height
+        withoutEnlargement: true,
+      })
+      .webp({ quality: 80 })
+      .toFile(uploadPath);
+
+    req.body.paymentscreenshot = `/uploads/${filename}`;
+
+    next();
+  } catch (error) {
+    console.error('Error processing payment screenshot:', error);
+    res.status(500).json({ message: 'Error processing screenshot upload', error: error.message });
+  }
+};
