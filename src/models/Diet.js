@@ -11,14 +11,34 @@ const Diet = sequelize.define('Diet', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  description: {
-    type: DataTypes.TEXT,
+  dietgoal: {
+    type: DataTypes.STRING,
     allowNull: true,
   },
-  trainerId: {
+  calories: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+  diettype: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  morning: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  lunch: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  dinner: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  restrictions: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  }
 }, {
   timestamps: true,
 });

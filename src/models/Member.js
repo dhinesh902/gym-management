@@ -64,6 +64,10 @@ const Member = sequelize.define('Member', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+  membershipplanid: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
   joiningdate: {
     type: DataTypes.DATEONLY,
     allowNull: false,

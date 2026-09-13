@@ -24,6 +24,10 @@ MemberSubscription.belongsTo(Member, { foreignKey: 'memberId' });
 MembershipPlan.hasMany(MemberSubscription, { foreignKey: 'planId' });
 MemberSubscription.belongsTo(MembershipPlan, { foreignKey: 'planId' });
 
+// Plan and Member directly
+MembershipPlan.hasMany(Member, { foreignKey: 'membershipplanid' });
+Member.belongsTo(MembershipPlan, { foreignKey: 'membershipplanid' });
+
 // Member and Attendance
 Member.hasMany(Attendance, { foreignKey: 'memberId' });
 Attendance.belongsTo(Member, { foreignKey: 'memberId' });

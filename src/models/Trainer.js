@@ -47,6 +47,10 @@ const Trainer = sequelize.define('Trainer', {
   monthlysalary: {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: true,
+  },
+  status: {
+    type: DataTypes.ENUM('active', 'inactive', 'suspended'),
+    defaultValue: 'active',
   }
 }, {
   timestamps: true,

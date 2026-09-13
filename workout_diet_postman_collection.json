@@ -1,0 +1,343 @@
+{
+  "info": {
+    "name": "Gym Management - Workout and Diet APIs",
+    "description": "Postman Collection for Workout and Diet Modules",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Workouts",
+      "item": [
+        {
+          "name": "Get All Workouts",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/workouts/get",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "workouts",
+                "get"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Workout By ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/workouts/get/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "workouts",
+                "get",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Workout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Full Body HIIT\",\n    \"targetmuscle\": \"Full Body\",\n    \"difficultlevel\": \"Advanced\",\n    \"duration\": 45,\n    \"description\": \"Intense full body workout with minimal rest\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/workouts/add",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "workouts",
+                "add"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Edit Workout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Full Body HIIT - Edited\",\n    \"duration\": 50\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/workouts/edit/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "workouts",
+                "edit",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Workout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/workouts/delete/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "workouts",
+                "delete",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Diets",
+      "item": [
+        {
+          "name": "Get All Diets",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/diets/get",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "diets",
+                "get"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Diet By ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/diets/get/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "diets",
+                "get",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Diet",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Muscle Gain Diet\",\n    \"dietgoal\": \"Muscle Building\",\n    \"calories\": 3000,\n    \"diettype\": \"High Protein\",\n    \"morning\": \"Oatmeal with whey protein and fruits\",\n    \"lunch\": \"Chicken breast with brown rice and broccoli\",\n    \"dinner\": \"Salmon with sweet potato\",\n    \"restrictions\": \"No refined sugar\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/diets/add",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "diets",
+                "add"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Edit Diet",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Muscle Gain Diet - Modified\",\n    \"calories\": 3200\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/diets/edit/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "diets",
+                "edit",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Diet",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/diets/delete/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "diets",
+                "delete",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "your_jwt_token_here",
+      "type": "string"
+    }
+  ]
+}

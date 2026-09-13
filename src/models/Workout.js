@@ -11,18 +11,22 @@ const Workout = sequelize.define('Workout', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  targetMuscle: {
+  targetmuscle: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  trainerId: {
-    type: DataTypes.INTEGER,
-    allowNull: true, // If null, it's a general workout
+  difficultlevel: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
+  duration: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  }
 }, {
   timestamps: true,
 });

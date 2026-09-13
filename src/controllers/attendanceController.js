@@ -1,9 +1,14 @@
 import db from '../models/index.js';
-const {  Attendance, Member  } = db;
+const { Attendance, Member } = db;
 
 export const getAllAttendance = async (req, res) => {
   try {
-    const records = await Attendance.findAll({ include: [Member] });
+    const records = await Attendance.findAll({
+      include: {
+        model: Member,
+        attributes: ["id", "fullname"]
+      }
+    });
     res.json({ status: 200, data: records });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
@@ -13,6 +18,12 @@ export const getAllAttendance = async (req, res) => {
 export const markAttendance = async (req, res) => {
   try {
     const { memberId, date, checkInTime, checkOutTime } = req.body;
+
+    const member = await Member.findByPk(memberId);
+    if (!member) {
+      return res.status(404).json({ message: 'Member not found' });
+    }
+
     let record = await Attendance.findOne({ where: { memberId, date } });
 
     if (record) {

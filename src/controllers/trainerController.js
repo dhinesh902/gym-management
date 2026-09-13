@@ -5,6 +5,16 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 const { Trainer, Member, Workout, Diet } = db;
 
+const cleanData = (data) => {
+  const cleaned = { ...data };
+  for (let key in cleaned) {
+    if (cleaned[key] === '') {
+      cleaned[key] = null;
+    }
+  }
+  return cleaned;
+};
+
 export const getAllTrainers = async (req, res) => {
   try {
     const trainers = await Trainer.findAll({
@@ -31,14 +41,17 @@ export const getTrainerById = async (req, res) => {
 
 export const createTrainer = async (req, res) => {
   try {
-    let trainerData = { ...req.body };
+    let trainerData = cleanData(req.body);
     if (trainerData.password) {
       const salt = await bcrypt.genSalt(10);
       trainerData.password = await bcrypt.hash(trainerData.password, salt);
     }
     const trainer = await Trainer.create(trainerData);
-    res.status(201).json({ status: 201, data: { message: 'Created successfully' } });
+    res.status(201).json({ status: 201, data: { message: 'Created successfully', profilephoto: trainer.profilephoto } });
   } catch (error) {
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({ message: 'Validation error', errors: error.errors.map(e => e.message) });
+    }
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
@@ -48,23 +61,34 @@ export const updateTrainer = async (req, res) => {
     const trainer = await Trainer.findByPk(req.params.id);
     if (!trainer) return res.status(404).json({ message: 'Trainer not found' });
 
-    // If a new profile photo is uploaded and an old one exists, delete the old one
-    if (req.body.profilephoto && trainer.profilephoto) {
+    // If a new profile photo is uploaded or removed, delete the old one
+    if (req.body.profilephoto === 'null' || req.body.profilephoto === null || req.body.profilephoto === '') {
+      req.body.profilephoto = null;
+      if (trainer.profilephoto) {
+        const oldPhotoPath = path.join(process.cwd(), 'public', trainer.profilephoto);
+        if (fs.existsSync(oldPhotoPath)) {
+          fs.unlinkSync(oldPhotoPath);
+        }
+      }
+    } else if (req.body.profilephoto && trainer.profilephoto && req.body.profilephoto !== trainer.profilephoto) {
       const oldPhotoPath = path.join(process.cwd(), 'public', trainer.profilephoto);
       if (fs.existsSync(oldPhotoPath)) {
         fs.unlinkSync(oldPhotoPath);
       }
     }
 
-    let updateData = { ...req.body };
+    let updateData = cleanData(req.body);
     if (updateData.password) {
       const salt = await bcrypt.genSalt(10);
       updateData.password = await bcrypt.hash(updateData.password, salt);
     }
 
     await trainer.update(updateData);
-    res.json({ status: 200, data: { message: 'Updated successfully' } });
+    res.json({ status: 200, data: { message: 'Updated successfully', profilephoto: trainer.profilephoto } });
   } catch (error) {
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({ message: 'Validation error', errors: error.errors.map(e => e.message) });
+    }
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
@@ -105,6 +129,24 @@ export const loginTrainer = async (req, res) => {
 
     res.json({ status: 200, data: { token, user: { id: trainer.id, role: 'trainer', message: "Logged in successfully" } } });
   } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+export const updateTrainerStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    if (!status) return res.status(400).json({ message: 'Status is required' });
+    
+    const trainer = await Trainer.findByPk(req.params.id);
+    if (!trainer) return res.status(404).json({ message: 'Trainer not found' });
+
+    await trainer.update({ status });
+    res.json({ status: 200, data: { message: 'Trainer status updated successfully', status: trainer.status } });
+  } catch (error) {
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(400).json({ message: 'Validation error', errors: error.errors.map(e => e.message) });
+    }
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
