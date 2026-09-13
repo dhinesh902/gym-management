@@ -13,6 +13,7 @@ import * as dietController from "../controllers/dietController.js";
 import * as membershipController from "../controllers/membershipController.js";
 import * as dashboardController from "../controllers/dashboardController.js";
 import * as progressController from "../controllers/progressController.js";
+import * as reportController from "../controllers/reportController.js";
 
 // Auth routes
 router.post("/auth/register", authController.register);
@@ -88,6 +89,9 @@ router.post(
 
 // Dashboard routes
 router.post("/dashboard/stats/get", authMiddleware, dashboardController.getStats);
+
+// Reports route
+router.post("/reports/analytics", authMiddleware, reportController.getReports);
 
 // Progress routes
 router.post("/progress/add", authMiddleware, progressController.addProgressLog);
