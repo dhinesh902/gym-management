@@ -33,7 +33,7 @@ export const processProfilePhoto = async (req, res, next) => {
   if (!req.file) return next();
 
   try {
-    const filename = `profile-${Date.now()}-${Math.round(Math.random() * 1e9)}.webp`;
+    const filename = `profile-${Date.now()}-${Math.round(Math.random() * 1e9)}.jpeg`;
     const uploadPath = path.join(__dirname, '../../public/uploads', filename);
 
     // Ensure directory exists
@@ -48,7 +48,7 @@ export const processProfilePhoto = async (req, res, next) => {
         fit: sharp.fit.cover,
         position: sharp.strategy.entropy,
       })
-      .webp({ quality: 80 })
+      .jpeg({ quality: 80 })
       .toFile(uploadPath);
 
     // Attach the new file path to req.body so it gets saved to the database
@@ -66,7 +66,7 @@ export const processPaymentScreenshot = async (req, res, next) => {
   if (!req.file) return next();
 
   try {
-    const filename = `payment-${Date.now()}-${Math.round(Math.random() * 1e9)}.webp`;
+    const filename = `payment-${Date.now()}-${Math.round(Math.random() * 1e9)}.jpeg`;
     const uploadPath = path.join(__dirname, '../../public/uploads', filename);
 
     // Ensure directory exists
@@ -80,7 +80,7 @@ export const processPaymentScreenshot = async (req, res, next) => {
       .resize(800, null, { // Resize width to 800px, auto height
         withoutEnlargement: true,
       })
-      .webp({ quality: 80 })
+      .jpeg({ quality: 80 })
       .toFile(uploadPath);
 
     req.body.paymentscreenshot = `/uploads/${filename}`;

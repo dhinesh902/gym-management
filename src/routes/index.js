@@ -26,15 +26,15 @@ router.post("/trainers/login", trainerController.loginTrainer);
 
 // Member routes
 router.post("/members/get", authMiddleware, memberController.getAllMembers);
-router.post("/members/add", authMiddleware, uploadProfilePhoto, processProfilePhoto, memberController.createMember);
+router.post("/members/add", uploadProfilePhoto, processProfilePhoto, memberController.createMember);
 router.post("/members/get/:id", authMiddleware, memberController.getMemberById);
 router.post("/members/edit/:id", authMiddleware, uploadProfilePhoto, processProfilePhoto, memberController.updateMember);
 router.post("/members/status/:id", authMiddleware, memberController.updateMemberStatus);
 router.post("/members/delete/:id", authMiddleware, memberController.deleteMember);
 
 // Trainer routes
-router.post("/trainers/get", authMiddleware, trainerController.getAllTrainers);
-router.post("/trainers/add", authMiddleware, uploadProfilePhoto, processProfilePhoto, trainerController.createTrainer);
+router.post("/trainers/get", trainerController.getAllTrainers);
+router.post("/trainers/add", uploadProfilePhoto, processProfilePhoto, trainerController.createTrainer);
 router.post("/trainers/get/:id", authMiddleware, trainerController.getTrainerById);
 router.post("/trainers/edit/:id", authMiddleware, uploadProfilePhoto, processProfilePhoto, trainerController.updateTrainer);
 router.post("/trainers/status/:id", authMiddleware, trainerController.updateTrainerStatus);
@@ -50,6 +50,11 @@ router.post(
     "/attendance/check-in/add",
     authMiddleware,
     attendanceController.markAttendance,
+);
+router.post(
+    "/attendance/member/:memberId",
+    authMiddleware,
+    attendanceController.getMemberAttendance,
 );
 
 // Payment routes
@@ -72,7 +77,7 @@ router.post("/diets/edit/:id", authMiddleware, dietController.updateDiet);
 router.post("/diets/delete/:id", authMiddleware, dietController.deleteDiet);
 
 // Membership routes
-router.post("/plans/get", authMiddleware, membershipController.getAllPlans);
+router.post("/plans/get", membershipController.getAllPlans);
 router.post("/plans/add", authMiddleware, membershipController.createPlan);
 router.post("/plans/edit/:id", authMiddleware, membershipController.updatePlan);
 router.post("/plans/delete/:id", authMiddleware, membershipController.deletePlan);
