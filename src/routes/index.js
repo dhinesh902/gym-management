@@ -14,6 +14,7 @@ import * as membershipController from "../controllers/membershipController.js";
 import * as dashboardController from "../controllers/dashboardController.js";
 import * as progressController from "../controllers/progressController.js";
 import * as reportController from "../controllers/reportController.js";
+import * as workoutAssignmentController from "../controllers/workoutAssignmentController.js";
 
 // Auth routes
 router.post("/auth/register", authController.register);
@@ -31,6 +32,7 @@ router.post("/members/get/:id", authMiddleware, memberController.getMemberById);
 router.post("/members/edit/:id", authMiddleware, uploadProfilePhoto, processProfilePhoto, memberController.updateMember);
 router.post("/members/status/:id", authMiddleware, memberController.updateMemberStatus);
 router.post("/members/delete/:id", authMiddleware, memberController.deleteMember);
+router.post("/members/search", authMiddleware, memberController.searchMember);
 
 // Trainer routes
 router.post("/trainers/get", trainerController.getAllTrainers);
@@ -69,6 +71,16 @@ router.post("/workouts/get", authMiddleware, workoutController.getAllWorkouts);
 router.post("/workouts/add", authMiddleware, workoutController.createWorkout);
 router.post("/workouts/edit/:id", authMiddleware, workoutController.updateWorkout);
 router.post("/workouts/delete/:id", authMiddleware, workoutController.deleteWorkout);
+router.post("/workouts/search", authMiddleware, workoutController.searchWorkout);
+
+// Workout Assignment routes
+router.post("/workout-assignments/assign", authMiddleware, workoutAssignmentController.assignWorkouts);
+router.post("/workout-assignments/trainer/:trainerId", authMiddleware, workoutAssignmentController.getTrainerAssignments);
+router.post("/workout-assignments/member/:memberId", authMiddleware, workoutAssignmentController.getMemberAssignments);
+router.post("/workout-assignments/reschedule/:id", authMiddleware, workoutAssignmentController.rescheduleAssignment);
+router.post("/workout-assignments/status/:id", authMiddleware, workoutAssignmentController.updateStatus);
+router.post("/workout-assignments/edit/:id", authMiddleware, workoutAssignmentController.editAssignment);
+router.post("/workout-assignments/delete/:id", authMiddleware, workoutAssignmentController.deleteAssignment);
 
 // Diet routes
 router.post("/diets/get", authMiddleware, dietController.getAllDiets);

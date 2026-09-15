@@ -40,3 +40,24 @@ export const deleteWorkout = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+import { Op } from 'sequelize';
+
+export const searchWorkout = async (req, res) => {
+  try {
+    const { query } = req.body;
+    if (!query) {
+      return res.status(400).json({ message: "Search query is required" });
+    }
+    const workouts = await Workout.findAll({
+      where: {
+        title: {
+          [Op.like]: `%${query}%`
+        }
+      }
+    });
+    res.json({ status: 200, data: workouts });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};

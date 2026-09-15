@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { Op } from 'sequelize';
 const { Member, Trainer, MemberSubscription, MembershipPlan } = db;
 
 const cleanData = (data) => {
@@ -150,6 +151,26 @@ export const updateMemberStatus = async (req, res) => {
     if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
       return res.status(400).json({ message: 'Validation error', errors: error.errors.map(e => e.message) });
     }
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+export const searchMember = async (req, res) => {
+  try {
+    const { query } = req.body;
+    if (!query) {
+      return res.status(400).json({ message: "Search query is required" });
+    }
+    const members = await Member.findAll({
+      where: {
+        fullname: {
+          [Op.like]: `%${query}%`
+        }
+      },
+      attributes: ['id', 'fullname', 'profilephoto', 'status']
+    });
+    res.json({ status: 200, data: members });
+  } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };

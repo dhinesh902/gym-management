@@ -10,6 +10,7 @@ import Payment from './Payment.js';
 import Workout from './Workout.js';
 import Diet from './Diet.js';
 import ProgressLog from './ProgressLog.js';
+import WorkoutAssignment from './WorkoutAssignment.js';
 
 // Define Associations
 
@@ -48,6 +49,16 @@ Workout.belongsTo(Trainer, { foreignKey: 'trainerId' });
 Trainer.hasMany(Diet, { foreignKey: 'trainerId' });
 Diet.belongsTo(Trainer, { foreignKey: 'trainerId' });
 
+// WorkoutAssignment Associations
+Member.hasMany(WorkoutAssignment, { foreignKey: 'memberId' });
+WorkoutAssignment.belongsTo(Member, { foreignKey: 'memberId' });
+
+Trainer.hasMany(WorkoutAssignment, { foreignKey: 'trainerId' });
+WorkoutAssignment.belongsTo(Trainer, { foreignKey: 'trainerId' });
+
+Workout.hasMany(WorkoutAssignment, { foreignKey: 'workoutId' });
+WorkoutAssignment.belongsTo(Workout, { foreignKey: 'workoutId' });
+
 export default {
   sequelize,
   User,
@@ -60,4 +71,5 @@ export default {
   Workout,
   Diet,
   ProgressLog,
+  WorkoutAssignment,
 };

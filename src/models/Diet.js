@@ -7,35 +7,31 @@ const Diet = sequelize.define('Diet', {
     autoIncrement: true,
     primaryKey: true,
   },
-  title: {
+  session: {
+    type: DataTypes.ENUM('breakfast', 'lunch', 'eveningsnack', 'dinner'),
+    allowNull: false,
+  },
+  foodName: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  dietgoal: {
-    type: DataTypes.STRING,
+  isQuantity: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  isGrams: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  quantity: {
+    type: DataTypes.FLOAT,
     allowNull: true,
   },
-  calories: {
-    type: DataTypes.INTEGER,
+  grams: {
+    type: DataTypes.FLOAT,
     allowNull: true,
   },
-  diettype: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  morning: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  lunch: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  dinner: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  restrictions: {
+  description: {
     type: DataTypes.TEXT,
     allowNull: true,
   }
